@@ -130,7 +130,7 @@ class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(aliases=['b'])
     async def ban(self, ctx, *,  pinged_user: discord.Member = None):
         """Ban someone"""
         if (pinged_user == None):
@@ -139,7 +139,7 @@ class Moderation(commands.Cog):
             await pinged_user.ban()
             await ctx.send(f"{pinged_user.display_name} has been banned.")
 
-    @commands.command()
+    @commands.command(aliases=['k'])
     async def kick(self, ctx, *,  pinged_user: discord.Member = None):
         """Kick someone"""
         if (pinged_user == None):
