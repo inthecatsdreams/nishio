@@ -77,11 +77,14 @@ class General(commands.Cog):
         query = ctx.message.content.split(" ")[1]
         api_url = f"https://safebooru.donmai.us/posts.json?random=true&tags={query}&rating=safe&limit=1"
         r = requests.get(api_url)
-        pic = r.json()[0]["file_url"]
-        embed = discord.Embed(title=f"result for {query}", url=pic)
-        embed.set_image(url=pic)
-
-        await ctx.send(embed=embed)
+        try:
+            pic = r.json()[0]["file_url"]
+            embed = discord.Embed(title=f"result for {query}", url=pic)
+            embed.set_image(url=pic)
+            await ctx.send(embed=embed)
+        except IndexError:
+            await ctx.send("I didn't find anything.")
+        
 
 
 class Moderation(commands.Cog):
