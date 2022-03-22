@@ -82,7 +82,7 @@ class General(commands.Cog):
             embed = discord.Embed(title=f"result for {query}", url=pic)
             embed.set_image(url=pic)
             await ctx.send(embed=embed)
-        except IndexError:
+        except IndexError or KeyError:
             await ctx.send("I didn't find anything.")
         
 
