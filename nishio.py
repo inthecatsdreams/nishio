@@ -66,7 +66,7 @@ class General(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(aliases=['a', 'av'])
     async def avatar(self, ctx, *,  avamember: discord.Member = None):
         """Returns someone's avatar"""
         if (avamember == None):
@@ -148,7 +148,7 @@ class Moderation(commands.Cog):
             await pinged_user.kick()
             await ctx.send(f"{pinged_user.display_name} has been kicked.")
 
-    @commands.command()
+    @commands.command(aliases=['un'])
     async def unban(self, ctx, *, member):
         """Unban someone"""
         banned_users = await ctx.guild.bans()
