@@ -67,7 +67,7 @@ class General(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def avatar(self, ctx, *,  avamember : discord.Member=None):
+    async def avatar(self, ctx, *,  avamember: discord.Member = None):
         """Returns someone's avatar"""
         if (avamember == None):
             await ctx.send(ctx.message.author.avatar_url)
@@ -79,36 +79,36 @@ class General(commands.Cog):
     @commands.command()
     async def userinfo(self, ctx, *,  pinged_user: discord.Member = None):
         """returns the user's info"""
-        
+
         if (pinged_user == None):
 
             embed = discord.Embed(title="Userinfo command", url="https://github.com/inthecatsdreams/nishio",
-                              description=ctx.message.author.display_name + "'s info")
+                                  description=ctx.message.author.display_name + "'s info")
             embed.set_author(name=ctx.message.author.display_name)
             embed.set_thumbnail(url=ctx.message.author.avatar_url)
             embed.add_field(name="Registered on ",
-                        value=ctx.message.author.created_at, inline=True)
+                            value=ctx.message.author.created_at, inline=True)
             embed.add_field(name="Joined on ",
-                        value=ctx.message.author.joined_at, inline=True)
+                            value=ctx.message.author.joined_at, inline=True)
             embed.add_field(
-            name="User id ", value=ctx.message.author.id, inline=True)
+                name="User id ", value=ctx.message.author.id, inline=True)
             embed.add_field(name="Colour representing the user ",
-                        value=ctx.message.author.color)
+                            value=ctx.message.author.color)
             embed.set_footer(text="i'm a retarded bot")
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(title="Userinfo command", url="https://github.com/inthecatsdreams/nishio",
-                              description=pinged_user.display_name + "'s info")
+                                  description=pinged_user.display_name + "'s info")
             embed.set_author(name=pinged_user.display_name)
             embed.set_thumbnail(url=pinged_user.avatar_url)
             embed.add_field(name="Registered on ",
-                        value=pinged_user.created_at, inline=True)
+                            value=pinged_user.created_at, inline=True)
             embed.add_field(name="Joined on ",
-                        value=pinged_user.joined_at, inline=True)
+                            value=pinged_user.joined_at, inline=True)
             embed.add_field(
-            name="User id ", value=pinged_user.id, inline=True)
+                name="User id ", value=pinged_user.id, inline=True)
             embed.add_field(name="Colour representing the user ",
-                        value=pinged_user.color)
+                            value=pinged_user.color)
             embed.set_footer(text="i'm a retarded bot")
             await ctx.send(embed=embed)
 
@@ -123,7 +123,8 @@ class General(commands.Cog):
         embed.set_image(url=pic)
 
         await ctx.send(embed=embed)
-    
+
+
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -136,7 +137,7 @@ class Moderation(commands.Cog):
         else:
             await pinged_user.ban()
             await ctx.send(f"{pinged_user.display_name} has been banned.")
-    
+
     @commands.command()
     async def kick(self, ctx, *,  pinged_user: discord.Member = None):
         """Kick someone"""
@@ -145,6 +146,19 @@ class Moderation(commands.Cog):
         else:
             await pinged_user.kick()
             await ctx.send(f"{pinged_user.display_name} has been kicked.")
+
+    @commands.command()
+    async def unban(self, ctx, *, member):
+        """Unban someone"""
+        banned_users = await ctx.guild.bans()
+
+        member_name, member_discriminator = member.split('#')
+        for ban_entry in banned_users:
+            user = ban_entry.user
+
+            if (user.name, user.discriminator) == (member_name, member_discriminator):
+                await ctx.guild.unban(user)
+                await ctx.channel.send(f"{user.mention} has been unbanned.")
 
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(config["prefix"]),
@@ -155,7 +169,7 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or(config["prefix"]),
 async def on_ready():
     print('Logged in as {0} ({0.id})'.format(bot.user))
     print('------')
-    game = discord.Game("{}help ".format(config["prefix"]))
+    game = discord.Game(f"{config['prefix']}help | ready soon :tm:")
     await bot.change_presence(status=discord.Status.do_not_disturb, activity=game)
 
 
