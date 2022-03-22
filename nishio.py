@@ -3,6 +3,7 @@ from http import client
 import discord
 from setuptools import Command
 from discord.ext import commands
+from discord.ext.commands import has_permissions
 import json
 import glob
 import os
@@ -88,15 +89,18 @@ class Moderation(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=['b'])
+    @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, *,  pinged_user: discord.Member = None):
         """Ban someone"""
         if (pinged_user == None):
             await ctx.send("Please mention a user to ban.")
         else:
+            
             await pinged_user.ban()
             await ctx.send(f"{pinged_user.display_name} has been banned.")
 
     @commands.command(aliases=['k'])
+    @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, *,  pinged_user: discord.Member = None):
         """Kick someone"""
         if (pinged_user == None):
@@ -127,8 +131,8 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or(config["prefix"]),
 async def on_ready():
     print('Logged in as {0} ({0.id})'.format(bot.user))
     print('------')
-    game = discord.Game(f"{config['prefix']}help | ready soon :tm:")
-    await bot.change_presence(status=discord.Status.do_not_disturb, activity=game)
+    game = discord.Game(f"{config['prefix']}help")
+    await bot.change_presence(status=discord.Status.online, activity=game)
 
 
 bot.add_cog(General(bot))
