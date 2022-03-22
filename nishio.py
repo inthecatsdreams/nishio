@@ -83,7 +83,7 @@ class General(commands.Cog):
         if (pinged_user == None):
 
             embed = discord.Embed(title="Userinfo command", url="https://github.com/inthecatsdreams/nishio",
-                                  description=ctx.message.author.display_name + "'s info")
+                                  description=ctx.message.author.display_name + "'s info", color=ctx.message.author.color)
             embed.set_author(name=ctx.message.author.display_name)
             embed.set_thumbnail(url=ctx.message.author.avatar_url)
             embed.add_field(name="Registered on ",
@@ -94,11 +94,12 @@ class General(commands.Cog):
                 name="User id ", value=ctx.message.author.id, inline=True)
             embed.add_field(name="Colour representing the user ",
                             value=ctx.message.author.color)
+            
             embed.set_footer(text="i'm a retarded bot")
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(title="Userinfo command", url="https://github.com/inthecatsdreams/nishio",
-                                  description=pinged_user.display_name + "'s info")
+                                  description=pinged_user.display_name + "'s info", color=pinged_user.color)
             embed.set_author(name=pinged_user.display_name)
             embed.set_thumbnail(url=pinged_user.avatar_url)
             embed.add_field(name="Registered on ",
