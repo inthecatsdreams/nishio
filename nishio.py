@@ -162,7 +162,7 @@ class Moderation(commands.Cog):
 
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(config["prefix"]),
-                   description='Here is what I can do:')
+                   description='**I am still a WIP please blame inthecatsdreams#2187 if I break**:')
 
 
 @bot.event
