@@ -76,7 +76,7 @@ class General(commands.Cog):
             userAvatarUrl = avamember.avatar_url
             await ctx.send(userAvatarUrl)
 
-    @commands.command()
+    @commands.command(aliases=['ui', 'i'])
     async def userinfo(self, ctx, *,  pinged_user: discord.Member = None):
         """returns the user's info"""
 
@@ -95,7 +95,7 @@ class General(commands.Cog):
             embed.add_field(name="Colour representing the user ",
                             value=ctx.message.author.color)
             
-            embed.set_footer(text="i'm a retarded bot")
+            embed.set_footer(text=f"userinfo command invoked by {ctx.message.author.display_name}")
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(title="Userinfo command", url="https://github.com/inthecatsdreams/nishio",
@@ -110,7 +110,7 @@ class General(commands.Cog):
                 name="User id ", value=pinged_user.id, inline=True)
             embed.add_field(name="Colour representing the user ",
                             value=pinged_user.color)
-            embed.set_footer(text="i'm a retarded bot")
+            embed.set_footer(text=f"userinfo command invoked by {ctx.message.author.display_name}")
             await ctx.send(embed=embed)
 
     @commands.command()
