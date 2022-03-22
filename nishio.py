@@ -1,6 +1,7 @@
 import asyncio
 from http import client
 import discord
+from setuptools import Command
 import youtube_dl
 from discord.ext import commands
 import json
@@ -67,6 +68,7 @@ class General(commands.Cog):
 
     @commands.command()
     async def avatar(self, ctx, *,  avamember : discord.Member=None):
+        """Returns someone's avatar"""
         if (avamember == None):
             await ctx.send(ctx.message.author.avatar_url)
         else:
@@ -77,7 +79,7 @@ class General(commands.Cog):
     @commands.command()
     async def userinfo(self, ctx, *,  pinged_user: discord.Member = None):
         """returns the user's info"""
-        # await ctx.send(len(args))
+        
         if (pinged_user == None):
 
             embed = discord.Embed(title="Userinfo command", url="https://github.com/inthecatsdreams/nishio",
@@ -104,7 +106,7 @@ class General(commands.Cog):
             embed.add_field(name="Joined on ",
                         value=pinged_user.joined_at, inline=True)
             embed.add_field(
-            name="User id ", value=ctx.message.author.id, inline=True)
+            name="User id ", value=pinged_user.id, inline=True)
             embed.add_field(name="Colour representing the user ",
                         value=pinged_user.color)
             embed.set_footer(text="i'm a retarded bot")
@@ -112,6 +114,7 @@ class General(commands.Cog):
 
     @commands.command()
     async def booru(self, ctx):
+        """Browse safebooru (danbooru is haram)"""
         query = ctx.message.content.split(" ")[1]
         api_url = f"https://safebooru.donmai.us/posts.json?random=true&tags={query}&rating=safe&limit=1"
         r = requests.get(api_url)
@@ -120,6 +123,28 @@ class General(commands.Cog):
         embed.set_image(url=pic)
 
         await ctx.send(embed=embed)
+    
+class Moderation(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command()
+    async def ban(self, ctx, *,  pinged_user: discord.Member = None):
+        """Ban someone"""
+        if (pinged_user == None):
+            await ctx.send("Please mention a user to ban.")
+        else:
+            await pinged_user.ban()
+            await ctx.send(f"{pinged_user.display_name} has been banned.")
+    
+    @commands.command()
+    async def kick(self, ctx, *,  pinged_user: discord.Member = None):
+        """Kick someone"""
+        if (pinged_user == None):
+            await ctx.send("Please mention a user to kick.")
+        else:
+            await pinged_user.kick()
+            await ctx.send(f"{pinged_user.display_name} has been kicked.")
 
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(config["prefix"]),
@@ -135,4 +160,5 @@ async def on_ready():
 
 
 bot.add_cog(General(bot))
+bot.add_cog(Moderation(bot))
 bot.run(config["token"])
